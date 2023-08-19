@@ -2,8 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Card } from 'react-bootstrap';
 import Link from 'next/link';
+import { deleteItem } from '../api/itemData';
 
-function ItemCard({ itemObj }) {
+function ItemCard({ itemObj, onUpdate }) {
+  const deleteThisItem = () => {
+    if (window.confirm(`Are you sure you want to delete ${itemObj.name}?`)) {
+      deleteItem(itemObj.firebaseKey).then(() => onUpdate());
+    }
+  };
+
   return (
     <Card>
       <Card.Img variant="top" src={itemObj.image_url} alt={itemObj.name} style={{ height: '200px' }} />
@@ -17,7 +24,7 @@ function ItemCard({ itemObj }) {
         <Link href={`../item/edit/${itemObj.firebaseKey}`} passHref>
           <Button className="card-button" variant="primary">Edit Button</Button>
         </Link>
-        <Button className="card-button" variant="danger">Delete</Button>
+        <Button className="card-button" variant="danger" onClick={deleteThisItem}>Delete</Button>
       </Card.Body>
     </Card>
   );
@@ -29,6 +36,7 @@ ItemCard.propTypes = {
     image_url: PropTypes.string,
     firebaseKey: PropTypes.string,
   }),
+  onUpdate: PropTypes.func.isRequired,
 };
 
 ItemCard.defaultProps = {

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Button } from 'react-bootstrap';
-import getItems from '../api/itemData';
+import { getItems } from '../api/itemData';
 import { useAuth } from '../utils/context/authContext';
 import ItemCard from '../components/ItemCard';
 
