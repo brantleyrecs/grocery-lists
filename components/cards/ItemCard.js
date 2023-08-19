@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Card } from 'react-bootstrap';
 import Link from 'next/link';
-import { deleteItem } from '../api/itemData';
+import { deleteItem } from '../../api/itemData';
 
 function ItemCard({ itemObj, onUpdate }) {
   const deleteThisItem = () => {

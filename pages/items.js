@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { Button } from 'react-bootstrap';
 import { getItems } from '../api/itemData';
 import { useAuth } from '../utils/context/authContext';
-import ItemCard from '../components/ItemCard';
+import ItemCard from '../components/cards/ItemCard';
 
 export default function Items() {
   const [items, setItems] = useState([]);
