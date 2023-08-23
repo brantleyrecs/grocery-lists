@@ -1,10 +1,15 @@
 import React from 'react';
+import Head from 'next/head';
+import ListForm from '../../components/forms/ListForm';
 
 function newList() {
   return (
-    <div>
-      New List
-    </div>
+    <>
+      <Head>
+        <title>New Grocery List</title>
+      </Head>
+      <ListForm />
+    </>
   );
 }
 

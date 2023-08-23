@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 import ItemForm from '../../../components/forms/ItemForm';
 import { getSingleItem } from '../../../api/itemData';
 
@@ -13,6 +14,11 @@ export default function EditSingleItem() {
   }, [firebaseKey]);
 
   return (
-    <ItemForm obj={editItem} />
+    <>
+      <Head>
+        <title>Editing {editItem.name}</title>
+      </Head>
+      <ItemForm obj={editItem} />
+    </>
   );
 }

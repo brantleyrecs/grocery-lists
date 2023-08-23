@@ -10,6 +10,7 @@ import {
 } from 'react-bootstrap';
 import { useAuth } from '../../utils/context/authContext';
 import { createItem, updateItem } from '../../api/itemData';
+import { getLists } from '../../api/listData';
 
 const initialState = {
   name: '',
@@ -18,14 +19,18 @@ const initialState = {
   store: '',
   aisle_number: '',
   firebaseKey: '',
+  sale: false,
 };
 
 function ItemForm({ obj }) {
   const [formInput, setFormInput] = useState(initialState);
+  const [lists, setLists] = useState([]);
   const router = useRouter();
   const { user } = useAuth();
 
   useEffect(() => {
+    getLists(user.uid).then(setLists);
+
     if (obj.firebaseKey) setFormInput(obj);
   }, [obj, user]);
 
@@ -56,18 +61,33 @@ function ItemForm({ obj }) {
     <Form onSubmit={handleSubmit}>
       <h1 className="text-white mt-5">{obj.firebaseKey ? 'Update' : 'Create'} Item</h1>
 
-      <FloatingLabel controlId="FloatingInput1" label="Item Name" className="mb-3">
-        <Form.Control
-          type="text"
-          placeholder="Enter Item Name"
-          name="name"
-          value={formInput.name}
-          onChange={handleChange}
-          required
-        />
-      </FloatingLabel>
+      <Row className="g-2 text-black">
+        <Col md>
+          <FloatingLabel controlId="FloatingInput1" label="Item Name" className="mb-3">
+            <Form.Control
+              type="text"
+              placeholder="Enter Item Name"
+              name="name"
+              value={formInput.name}
+              onChange={handleChange}
+              required
+            />
+          </FloatingLabel>
+        </Col>
+        <Col md>
+          <FloatingLabel controlId="floatingInputGrid" label="Quantity">
+            <Form.Control
+              type="text"
+              placeholder="Enter Quantity"
+              name="quantity"
+              value={formInput.quantity}
+              onChange={handleChange}
+            />
+          </FloatingLabel>
+        </Col>
+      </Row>
 
-      <FloatingLabel controlId="FloatingInput2" label="Item Image URL" className="mb-3">
+      <FloatingLabel controlId="FloatingInput2" label="Item Image URL" className="mb-3 text-black">
         <Form.Control
           type="text"
           placeholder="Enter Item Image URL"
@@ -77,7 +97,7 @@ function ItemForm({ obj }) {
         />
       </FloatingLabel>
 
-      <FloatingLabel controlId="FloatingTextarea" label="Item Description" className="mb-3">
+      <FloatingLabel controlId="FloatingTextarea" label="Item Description" className="mb-3 text-black">
         <Form.Control
           type="text"
           placeholder="Enter Item Description"
@@ -87,7 +107,7 @@ function ItemForm({ obj }) {
         />
       </FloatingLabel>
 
-      <Row className="g-2">
+      <Row className="g-2 text-black">
         <Col md>
           <FloatingLabel controlId="floatingInputGrid" label="Store">
             <Form.Control
@@ -112,9 +132,50 @@ function ItemForm({ obj }) {
           </FloatingLabel>
         </Col>
       </Row>
+      <br />
+
+      <FloatingLabel controlId="floatingSelect" label="Lists">
+        <Form.Select
+          aria-label="List"
+          name="list_id"
+          onChange={handleChange}
+          className="mb-3"
+          value={formInput.list_id}
+          required
+        >
+          <option value="">Select A Store</option>
+          {
+            lists.map((list) => (
+              <option
+                key={list.firebaseKey}
+                value={list.firebaseKey}
+              >
+                {list.name}
+              </option>
+            ))
+          }
+        </Form.Select>
+      </FloatingLabel>
 
       <br />
-      <Button type="submit">{obj.firebaseKey ? 'Update' : 'Create'} Item</Button>
+
+      <Form.Check
+        className="text-white mb-3"
+        type="checkbox"
+        id="sale"
+        name="sale"
+        label="On Sale?"
+        checked={formInput.sale}
+        onChange={(e) => {
+          setFormInput((prevState) => ({
+            ...prevState,
+            sale: e.target.checked,
+          }));
+        }}
+      />
+
+      <br />
+      <Button variant="outline-success" type="submit">{obj.firebaseKey ? 'Update' : 'Create'} Item</Button>
     </Form>
   );
 }
@@ -126,6 +187,7 @@ ItemForm.propTypes = {
     firebaseKey: PropTypes.string,
     description: PropTypes.string,
     store: PropTypes.string,
+    list_id: PropTypes.string,
     aisle_number: PropTypes.string,
   }),
 };
