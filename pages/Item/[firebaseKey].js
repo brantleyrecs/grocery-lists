@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useState } from 'react';
-// import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 import { Button } from 'react-bootstrap';
+import { BsFillPencilFill } from 'react-icons/bs';
 import Head from 'next/head';
 import Link from 'next/link';
 import { viewItemDetails } from '../../api/mergedData';
@@ -23,7 +23,7 @@ export default function ViewItem() {
       </Head>
       <div className="mt-5 d-flex flex-wrap font">
         <div className="d-flex flex-column">
-          <img src={itemDetails.image_url} alt={itemDetails.name} className="img" style={{ width: '300px' }} />
+          <img src={itemDetails.image} alt={itemDetails.name} className="img" style={{ width: '300px' }} />
         </div>
         <div className="text-white ms-5 details font">
           <h1 className="font">{itemDetails.name}</h1>
@@ -32,10 +32,10 @@ export default function ViewItem() {
           </Link>
           <h4>Qty: {itemDetails.quantity}</h4>
           <h4>{itemDetails.description}</h4>
-          <h4>Store: {itemDetails.store}/ Aisle: {itemDetails.aisle_number}</h4>
+          <h4>Store: {itemDetails.store} / Aisle: {itemDetails.aisle_number}</h4>
           <h5>{itemDetails.sale ? '🏷️ Sale' : ''}</h5>
           <Link href={`../item/edit/${itemDetails.firebaseKey}`} passHref>
-            <Button variant="outline-warning">Edit Item</Button>
+            <Button variant="outline-warning"><BsFillPencilFill /></Button>
           </Link>
         </div>
       </div>

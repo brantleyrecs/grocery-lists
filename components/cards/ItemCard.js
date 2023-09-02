@@ -16,7 +16,7 @@ function ItemCard({ itemObj, onUpdate }) {
   return (
     <Card>
       <Card.Body>
-        <Card.Img variant="top" src={itemObj.image_url} alt={itemObj.name} className="img" style={{ height: '200px' }} />
+        <Card.Img variant="top" src={itemObj.image} alt={itemObj.name} className="img" style={{ height: '200px' }} />
         <br />
         <br />
         <Card.Title>{itemObj.name}</Card.Title>
@@ -36,6 +36,7 @@ function ItemCard({ itemObj, onUpdate }) {
 ItemCard.propTypes = {
   itemObj: PropTypes.shape({
     name: PropTypes.string,
+    image: PropTypes.string,
     image_url: PropTypes.string,
     firebaseKey: PropTypes.string,
   }),

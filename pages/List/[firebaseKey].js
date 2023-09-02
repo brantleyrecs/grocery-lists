@@ -1,29 +1,61 @@
+/* eslint-disable react/no-this-in-sfc */
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable prefer-template */
+/* eslint-disable no-shadow */
+/* eslint-disable arrow-body-style */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { Button } from 'react-bootstrap';
+import PropTypes from 'prop-types';
+import {
+  Button,
+  Form,
+  InputGroup,
+  Table,
+  Spinner,
+} from 'react-bootstrap';
+import { BsFillTrash3Fill, BsFillPencilFill } from 'react-icons/bs';
 import Link from 'next/link';
 import Head from 'next/head';
 import { viewListDetails } from '../../api/mergedData';
 // import ItemCard from '../../components/cards/ItemCard';
-import ItemCheckList from '../../components/cards/ItemCheckList';
+// import ItemCheckList from '../../components/cards/ItemCheckList';
+import { deleteItem } from '../../api/itemData';
+// import SearchBar from '../../components/SearchBar';
 
-export default function SingleList() {
+export default function SingleList({ itemObj, onUpdate }) {
   const [listDetails, setListDetails] = useState([]);
+  const [search, setSearch] = useState('');
+  // const [state, setState] = useState();
   const router = useRouter();
   const { firebaseKey } = router.query;
+
+  const deleteThisItem = () => {
+    if (window.confirm(`Are you sure you want to delete ${itemObj.name}?`)) {
+      deleteItem(itemObj.firebaseKey).then(() => onUpdate());
+    }
+  };
 
   // useEffect(() => {
   //   viewListDetails(firebaseKey).then(setListDetails);
   // }, [firebaseKey]);
 
-  const listItems = () => {
-    viewListDetails(firebaseKey).then(setListDetails);
+  const listItems = (key) => {
+    viewListDetails(key).then(setListDetails);
   };
 
   useEffect(() => {
-    listItems();
-  }, []);
+    listItems(firebaseKey);
+  }, [firebaseKey]);
+
+  // const filterResult = (query) => {
+  //   if (!query) {
+  //     listItems(firebaseKey);
+  //   } else {
+  //     const search = listDetails.items.filter((item) => item.store.toLowerCase().includes(query) || item.name.toLowerCase().includes(query));
+  //     setListDetails(search);
+  //   }
+  // };
 
   return (
     <>
@@ -35,6 +67,15 @@ export default function SingleList() {
           <h1 style={{ marginRight: '20px' }} className="font">
             {listDetails.name}
           </h1>
+          {/* <SearchBar onKeyUp={(query) => filterResult(query)} /> */}
+          <Form>
+            <InputGroup className="my-3">
+              <Form.Control
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Search"
+              />
+            </InputGroup>
+          </Form>
           {/* <div style={{ marginBottom: '20px' }}>
             <input
               className="form-control mr-sm-2"
@@ -47,11 +88,81 @@ export default function SingleList() {
         </div>
       </div>
       <div>
-        {listDetails?.items?.map((itemObj) => <ItemCheckList itemObj={itemObj} onUpdate={listItems} />)}
+        <Table striped borderless hover variant="dark">
+          <thead>
+            <tr>
+              <th>Grabbed</th>
+              <th>Quantity</th>
+              <th>Item</th>
+              <th>Store</th>
+              <th>Aisle</th>
+              <th>Edit</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            {listDetails?.items?.filter((item) => {
+              return search.toLowerCase() === ''
+                ? item : item.name.toLowerCase().includes(search) || item.store.toLowerCase().includes(search);
+            })
+              .map((item) => (
+                <tr key={item.firebaseKey} className="items">
+                  <td>
+                    <Form.Check
+                      className="text-white mb-3"
+                      type="checkbox"
+                      // onChange={() => handleChecked()}
+                      checked={item.checked}
+                      id="checked"
+                      name="checked"
+                      label=""
+                    />
+                  </td>
+                  <td>{item.quantity}</td>
+                  <td>
+                    <Link href={`../item/${item.firebaseKey}`} passHref>
+                      <h3 className="link" style={(Form.Check.value) ? { textDecoration: 'line-through' } : null}>{item.name}</h3>
+                    </Link>
+                  </td>
+                  <td>{item.store}</td>
+                  <td>{item.aisle_number}</td>
+                  <td>
+                    <Link href={`../item/edit/${item.firebaseKey}`} passHref>
+                      <Button className="card-button" variant="outline-warning"><BsFillPencilFill /> <Spinner animation="border" size="sm" variant="warning" /></Button>
+                    </Link>
+                  </td>
+                  <td>
+                    <Button className="card-button" variant="outline-danger" onClick={deleteThisItem}><BsFillTrash3Fill /> <Spinner animation="border" size="sm" variant="danger" /></Button>
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </Table>
       </div>
+      {/* <div>
+        {listDetails?.items?.filter((item) => {
+          return search.toLowerCase() === ''
+            ? item : item.name.toLowerCase().includes(search) || item.store.toLowerCase().includes(search);
+        })
+          .map((itemObj) => <ItemCheckList key={itemObj.firebaseKey} itemObj={itemObj} onUpdate={listItems} />)}
+      </div> */}
       <Link href="/item/new" passHref>
         <Button variant="outline-primary" style={{ marginBottom: '20px' }}>Add New Item</Button>
       </Link>
     </>
   );
 }
+
+SingleList.propTypes = {
+  itemObj: PropTypes.shape({
+    name: PropTypes.string,
+    firebaseKey: PropTypes.string,
+  }),
+  onUpdate: PropTypes.func.isRequired,
+};
+
+SingleList.defaultProps = {
+  itemObj: {
+    name: 'Name',
+  },
+};

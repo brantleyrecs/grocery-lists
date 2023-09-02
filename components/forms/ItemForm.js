@@ -1,5 +1,9 @@
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable import/no-extraneous-dependencies */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+// import { PinturaEditor } from '@pqina/react-pintura';
+// import { getEditorDefaults, blobToFile } from '@pqina/pintura';
 import { useRouter } from 'next/router';
 import {
   FloatingLabel,
@@ -8,12 +12,14 @@ import {
   Row,
   Col,
 } from 'react-bootstrap';
+// import heic2any from 'heic2any';
 import { useAuth } from '../../utils/context/authContext';
 import { createItem, updateItem } from '../../api/itemData';
 import { getLists } from '../../api/listData';
 
 const initialState = {
   name: '',
+  quantity: 0,
   image_url: '',
   description: '',
   store: '',
@@ -22,11 +28,42 @@ const initialState = {
   sale: false,
 };
 
+// const editorDefaults = getEditorDefaults({
+//   imageReader: {
+//     preprocessImageFile: async (file) => {
+//       if (!/heic/.test(file.type)) return file;
+//       const blob = await heic2any({
+//         blob: file,
+//         toType: 'image/jpeg',
+//         quality: 0.94,
+//       });
+//       return blobToFile(blob, file.name);
+//     },
+//   },
+// });
+
 function ItemForm({ obj }) {
   const [formInput, setFormInput] = useState(initialState);
   const [lists, setLists] = useState([]);
+  // const [editorResult, setEditResult] = useState(undefined);
   const router = useRouter();
   const { user } = useAuth();
+
+  // const handleEditorProcess = (imageState) => {
+  //   setEditResult(URL.createObjectURL(imageState.dest));
+  // };
+
+  const handleImageChange = (e) => {
+    const imageFile = e.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(imageFile);
+    reader.onload = () => {
+      setFormInput((prevState) => ({
+        ...prevState,
+        image: reader.result,
+      }));
+    };
+  };
 
   useEffect(() => {
     getLists(user.uid).then(setLists);
@@ -87,7 +124,34 @@ function ItemForm({ obj }) {
         </Col>
       </Row>
 
-      <FloatingLabel controlId="FloatingInput2" label="Item Image URL" className="mb-3 text-black">
+      {/* user image */}
+      <Form.Group className="mb-3">
+        <Form.Label>Image</Form.Label>
+        <div className="d-flex align-items-center">
+          {/* {editorResult && <img alt="" src={editorResult} />} */}
+          <Form.Control
+            type="file"
+            // src="image.jpg"
+            // onProgress={handleEditorProcess}
+            accept="image/heic"
+            onChange={handleImageChange}
+            className="me-3"
+          />
+          {formInput.image && (
+            <img
+              // {...editorDefaults}
+              src="formInput.image"
+              // eslint-disable-next-line react/no-unknown-property
+              // onProgress={handleEditorProcess}
+              alt="profile"
+              style={{ height: '250px', width: '250px', borderRadius: '50%' }}
+            />
+          )}
+        </div>
+      </Form.Group>
+
+      {/* image url */}
+      {/* <FloatingLabel controlId="FloatingInput2" label="Item Image URL" className="mb-3 text-black">
         <Form.Control
           type="text"
           placeholder="Enter Item Image URL"
@@ -95,7 +159,7 @@ function ItemForm({ obj }) {
           value={formInput.image_url}
           onChange={handleChange}
         />
-      </FloatingLabel>
+      </FloatingLabel> */}
 
       <FloatingLabel controlId="FloatingTextarea" label="Item Description" className="mb-3 text-black">
         <Form.Control
@@ -109,7 +173,7 @@ function ItemForm({ obj }) {
 
       <Row className="g-2 text-black">
         <Col md>
-          <FloatingLabel controlId="floatingInputGrid" label="Store">
+          <FloatingLabel controlId="floatingInputGrid2" label="Store">
             <Form.Control
               type="text"
               placeholder="Enter Store"
@@ -121,7 +185,7 @@ function ItemForm({ obj }) {
           </FloatingLabel>
         </Col>
         <Col md>
-          <FloatingLabel controlId="floatingInputGrid" label="Aisle Number">
+          <FloatingLabel controlId="floatingInputGrid3" label="Aisle Number">
             <Form.Control
               type="text"
               placeholder="Enter Aisle Number"
@@ -143,7 +207,7 @@ function ItemForm({ obj }) {
           value={formInput.list_id}
           required
         >
-          <option value="">Select A Store</option>
+          <option value="">Select A List</option>
           {
             lists.map((list) => (
               <option
