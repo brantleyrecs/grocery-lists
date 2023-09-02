@@ -31,7 +31,7 @@ body {
 
 .single_list {
   padding: 10px;
-  color: white
+  color: rgb(255, 255, 255)
 }
 
 .single_list:hover {
@@ -65,7 +65,7 @@ ul > li {
 
 .card {
   margin: 20px;
-  background-color: rgba(250, 247, 247, 0.079);
+  background-color: rgba(255, 255, 255, 0.105);
   color: white;
   border: none;
   border-radius: 50px;
@@ -76,6 +76,15 @@ ul > li {
 
 .btn {
   border-radius: 50px;
+}
+
+.profile {
+  margin-top: 20px;
+}
+
+.search {
+  margin-top: 20px;
+  width: 200px;
 }
 
 /* .item {

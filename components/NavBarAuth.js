@@ -1,12 +1,16 @@
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import Link from 'next/link';
 import {
   Navbar, Container, Nav,
 } from 'react-bootstrap';
+import { useAuth } from '../utils/context/authContext';
 // import { signOut } from '../utils/auth';
 
 export default function NavBarAuth() {
+  const { user } = useAuth();
+
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
       <Container>
@@ -22,10 +26,18 @@ export default function NavBarAuth() {
             <Link passHref href="../items">
               <Nav.Link>Items</Nav.Link>
             </Link>
-            <Link className="user" passHref href="../profile">
-              <Nav.Link>Profile</Nav.Link>
-            </Link>
           </Nav>
+          <Link passHref href="../profile">
+            <Nav.Link>
+              <img
+                src={user.photoURL}
+                alt="userURL"
+                className="img"
+                width="50px"
+                height="50px"
+              />
+            </Nav.Link>
+          </Link>
         </Navbar.Collapse>
       </Container>
     </Navbar>

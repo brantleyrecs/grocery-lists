@@ -21,6 +21,7 @@ export default function User() {
         height="200px"
       />
       <br />
+      <br />
       <h2>{user.displayName}</h2>
       <br />
       <h3>{user.email}</h3>
