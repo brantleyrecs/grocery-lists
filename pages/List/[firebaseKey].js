@@ -14,27 +14,21 @@ import {
   Table,
   Spinner,
 } from 'react-bootstrap';
-import { BsFillTrash3Fill, BsFillPencilFill } from 'react-icons/bs';
+import { BsFillPencilFill } from 'react-icons/bs';
+import { FiShare } from 'react-icons/fi';
 import Link from 'next/link';
 import Head from 'next/head';
 import { viewListDetails } from '../../api/mergedData';
 // import ItemCard from '../../components/cards/ItemCard';
 // import ItemCheckList from '../../components/cards/ItemCheckList';
-import { deleteItem } from '../../api/itemData';
 // import SearchBar from '../../components/SearchBar';
 
-export default function SingleList({ itemObj, onUpdate }) {
+export default function SingleList() {
   const [listDetails, setListDetails] = useState([]);
   const [search, setSearch] = useState('');
   // const [state, setState] = useState();
   const router = useRouter();
   const { firebaseKey } = router.query;
-
-  const deleteThisItem = () => {
-    if (window.confirm(`Are you sure you want to delete ${itemObj.name}?`)) {
-      deleteItem(itemObj.firebaseKey).then(() => onUpdate());
-    }
-  };
 
   // useEffect(() => {
   //   viewListDetails(firebaseKey).then(setListDetails);
@@ -64,9 +58,12 @@ export default function SingleList({ itemObj, onUpdate }) {
       </Head>
       <div className="mt-5 d-flex flex-wrap team font">
         <div className="text-white ms-5 details" style={{ textAlign: 'center' }}>
-          <h1 style={{ marginRight: '20px' }} className="font">
-            {listDetails.name}
-          </h1>
+          <div>
+            <h1 style={{ marginRight: '20px' }} className="font">
+              {listDetails.name}
+            </h1>
+            <Button className="card-button" variant="outline-light"><FiShare /></Button>
+          </div>
           {/* <SearchBar onKeyUp={(query) => filterResult(query)} /> */}
           <Form>
             <InputGroup className="my-3">
@@ -97,7 +94,6 @@ export default function SingleList({ itemObj, onUpdate }) {
               <th>Store</th>
               <th>Aisle</th>
               <th>Edit</th>
-              <th>Delete</th>
             </tr>
           </thead>
           <tbody>
@@ -131,9 +127,6 @@ export default function SingleList({ itemObj, onUpdate }) {
                       <Button className="card-button" variant="outline-warning"><BsFillPencilFill /> <Spinner animation="border" size="sm" variant="warning" /></Button>
                     </Link>
                   </td>
-                  <td>
-                    <Button className="card-button" variant="outline-danger" onClick={deleteThisItem}><BsFillTrash3Fill /> <Spinner animation="border" size="sm" variant="danger" /></Button>
-                  </td>
                 </tr>
               ))}
           </tbody>
@@ -158,7 +151,6 @@ SingleList.propTypes = {
     name: PropTypes.string,
     firebaseKey: PropTypes.string,
   }),
-  onUpdate: PropTypes.func.isRequired,
 };
 
 SingleList.defaultProps = {

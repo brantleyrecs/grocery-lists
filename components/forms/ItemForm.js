@@ -2,8 +2,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-// import { PinturaEditor } from '@pqina/react-pintura';
-// import { getEditorDefaults, blobToFile } from '@pqina/pintura';
 import { useRouter } from 'next/router';
 import {
   FloatingLabel,
@@ -12,7 +10,7 @@ import {
   Row,
   Col,
 } from 'react-bootstrap';
-// import heic2any from 'heic2any';
+import Link from 'next/link';
 import { useAuth } from '../../utils/context/authContext';
 import { createItem, updateItem } from '../../api/itemData';
 import { getLists } from '../../api/listData';
@@ -27,31 +25,12 @@ const initialState = {
   firebaseKey: '',
   sale: false,
 };
-
-// const editorDefaults = getEditorDefaults({
-//   imageReader: {
-//     preprocessImageFile: async (file) => {
-//       if (!/heic/.test(file.type)) return file;
-//       const blob = await heic2any({
-//         blob: file,
-//         toType: 'image/jpeg',
-//         quality: 0.94,
-//       });
-//       return blobToFile(blob, file.name);
-//     },
-//   },
-// });
-
 function ItemForm({ obj }) {
   const [formInput, setFormInput] = useState(initialState);
   const [lists, setLists] = useState([]);
   // const [editorResult, setEditResult] = useState(undefined);
   const router = useRouter();
   const { user } = useAuth();
-
-  // const handleEditorProcess = (imageState) => {
-  //   setEditResult(URL.createObjectURL(imageState.dest));
-  // };
 
   const handleImageChange = (e) => {
     const imageFile = e.target.files[0];
@@ -128,38 +107,21 @@ function ItemForm({ obj }) {
       <Form.Group className="mb-3">
         <Form.Label>Image</Form.Label>
         <div className="d-flex align-items-center">
-          {/* {editorResult && <img alt="" src={editorResult} />} */}
           <Form.Control
             type="file"
-            // src="image.jpg"
-            // onProgress={handleEditorProcess}
-            accept="image/heic"
+            accept="image/*"
             onChange={handleImageChange}
             className="me-3"
           />
           {formInput.image && (
-            <img
-              // {...editorDefaults}
-              src="formInput.image"
-              // eslint-disable-next-line react/no-unknown-property
-              // onProgress={handleEditorProcess}
-              alt="profile"
-              style={{ height: '250px', width: '250px', borderRadius: '50%' }}
-            />
+          <img
+            src={formInput.image}
+            alt="profile"
+            style={{ height: '250px', width: '250px', borderRadius: '50%' }}
+          />
           )}
         </div>
       </Form.Group>
-
-      {/* image url */}
-      {/* <FloatingLabel controlId="FloatingInput2" label="Item Image URL" className="mb-3 text-black">
-        <Form.Control
-          type="text"
-          placeholder="Enter Item Image URL"
-          name="image_url"
-          value={formInput.image_url}
-          onChange={handleChange}
-        />
-      </FloatingLabel> */}
 
       <FloatingLabel controlId="FloatingTextarea" label="Item Description" className="mb-3 text-black">
         <Form.Control
@@ -198,24 +160,25 @@ function ItemForm({ obj }) {
       </Row>
       <br />
 
-      <FloatingLabel controlId="floatingSelect" label="Lists">
+      <FloatingLabel controlId="floatingSelect" label="Select A Grocery List">
         <Form.Select
           aria-label="List"
           name="list_id"
           onChange={handleChange}
           className="mb-3"
           value={formInput.list_id}
-          required
         >
-          <option value="">Select A List</option>
+          <option value="">No List</option>
           {
             lists.map((list) => (
-              <option
-                key={list.firebaseKey}
-                value={list.firebaseKey}
-              >
-                {list.name}
-              </option>
+              <>
+                <option
+                  key={list.firebaseKey}
+                  value={list.firebaseKey}
+                >
+                  {list.name}
+                </option>
+              </>
             ))
           }
         </Form.Select>
@@ -240,6 +203,9 @@ function ItemForm({ obj }) {
 
       <br />
       <Button variant="outline-success" type="submit">{obj.firebaseKey ? 'Update' : 'Create'} Item</Button>
+      <Link passHref href={`../../item/${obj.firebaseKey}`}>
+        <Button variant="outline-success">Cancel</Button>
+      </Link>
     </Form>
   );
 }

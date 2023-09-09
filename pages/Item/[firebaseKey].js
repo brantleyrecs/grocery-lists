@@ -1,16 +1,24 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import PropTypes from 'prop-types';
 import { Button } from 'react-bootstrap';
-import { BsFillPencilFill } from 'react-icons/bs';
+import { BsFillPencilFill, BsFillTrash3Fill } from 'react-icons/bs';
 import Head from 'next/head';
 import Link from 'next/link';
 import { viewItemDetails } from '../../api/mergedData';
+import { deleteItem } from '../../api/itemData';
 
-export default function ViewItem() {
+export default function ViewItem({ itemObj, onUpdate }) {
   const [itemDetails, setItemDetails] = useState({});
   const router = useRouter();
   const { firebaseKey } = router.query;
+
+  const deleteThisItem = () => {
+    if (window.confirm(`Are you sure you want to delete ${itemObj.name}?`)) {
+      deleteItem(itemObj.firebaseKey).then(() => onUpdate());
+    }
+  };
 
   useEffect(() => {
     viewItemDetails(firebaseKey).then(setItemDetails);
@@ -37,8 +45,23 @@ export default function ViewItem() {
           <Link href={`../item/edit/${itemDetails.firebaseKey}`} passHref>
             <Button variant="outline-warning"><BsFillPencilFill /></Button>
           </Link>
+          <Button className="card-button" variant="outline-danger" onClick={deleteThisItem}><BsFillTrash3Fill /></Button>
         </div>
       </div>
     </>
   );
 }
+
+ViewItem.propTypes = {
+  itemObj: PropTypes.shape({
+    name: PropTypes.string,
+    firebaseKey: PropTypes.string,
+  }),
+  onUpdate: PropTypes.func.isRequired,
+};
+
+ViewItem.defaultProps = {
+  itemObj: {
+    name: 'Name',
+  },
+};
