@@ -15,15 +15,17 @@ function ListCard({ listObj, onUpdate }) {
   };
 
   return (
-    <Link href={`../list/${listObj.firebaseKey}`} passHref>
-      <h3 className="single_list link">
-        {listObj.name}
-        {/* <Date dateString={listObj.date} /> */}
-        <Button variant="outline-danger" onClick={deleteThisItem} className="delete">
-          <BsFillTrash3Fill />
-        </Button>
-      </h3>
-    </Link>
+    <div className="single_list ">
+      <Link href={`../list/${listObj.firebaseKey}`} passHref>
+        <h3 className="single_list link">
+          {listObj.name}
+          {/* <Date dateString={listObj.date} /> */}
+        </h3>
+      </Link>
+      <Button variant="outline-danger" onClick={deleteThisItem} className="delete">
+        <BsFillTrash3Fill />
+      </Button>
+    </div>
   );
 }
 
@@ -32,6 +34,7 @@ ListCard.propTypes = {
     name: PropTypes.string,
     firebaseKey: PropTypes.string,
     date: PropTypes.string,
+    list_id: PropTypes.string,
   }),
   onUpdate: PropTypes.func.isRequired,
 };

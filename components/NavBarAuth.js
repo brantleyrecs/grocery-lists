@@ -20,14 +20,14 @@ export default function NavBarAuth() {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
-            <Link passHref href="../list/new">
+            <Link passHref href="../../list/new">
               <Nav.Link>New List</Nav.Link>
             </Link>
-            <Link passHref href="../items">
+            <Link passHref href="../../items">
               <Nav.Link>Items</Nav.Link>
             </Link>
           </Nav>
-          <Link passHref href="../profile">
+          <Link passHref href="../../profile">
             <Nav.Link>
               <img
                 src={user.photoURL}
