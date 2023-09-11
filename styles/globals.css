@@ -90,6 +90,13 @@ ul > li {
   width: 200px;
 }
 
+h6 {
+  margin-left: 10px;
+  margin-top: 6px;
+  color: gray;
+  font-size: 20px;
+}
+
 /* .item {
   display: flex;
 } */

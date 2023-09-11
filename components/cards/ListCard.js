@@ -4,8 +4,10 @@ import Link from 'next/link';
 import { Button } from 'react-bootstrap';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { BsFillTrash3Fill } from 'react-icons/bs';
-import { deleteSingleList } from '../../api/listData';
+
+// eslint-disable-next-line import/no-unresolved
 // import Date from '../date';
+import { deleteSingleList } from '../../api/listData';
 
 function ListCard({ listObj, onUpdate }) {
   const deleteThisItem = () => {
@@ -19,8 +21,9 @@ function ListCard({ listObj, onUpdate }) {
       <Link href={`../list/${listObj.firebaseKey}`} passHref>
         <h3 className="single_list link">
           {listObj.name}
-          {/* <Date dateString={listObj.date} /> */}
+          <h6>Created: {listObj.date}</h6>
         </h3>
+        {/* <Date dateString={listObj.date} /> */}
       </Link>
       <Button variant="outline-danger" onClick={deleteThisItem} className="delete">
         <BsFillTrash3Fill />
