@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
+import { format } from 'date-fns';
+// import { useFormatter } from 'next-intl';
 import { Button, Form, FloatingLabel } from 'react-bootstrap';
 import { useAuth } from '../../utils/context/authContext';
 import { createList, updateList } from '../../api/listData';
@@ -8,12 +10,14 @@ import { createList, updateList } from '../../api/listData';
 const initialState = {
   name: '',
   firebaseKey: '',
+  date: '',
 };
 
 function ListForm({ obj }) {
   const [formInput, setFormInput] = useState(initialState);
   const router = useRouter();
   const { user } = useAuth();
+  // const format = useFormatter();
 
   useEffect(() => {
     if (obj.firebaseKey) setFormInput(obj);
@@ -32,7 +36,7 @@ function ListForm({ obj }) {
     if (obj.firebaseKey) {
       updateList(formInput).then(() => router.push(`/list/${obj.firebaseKey}`));
     } else {
-      const payload = { ...formInput, uid: user.uid };
+      const payload = { ...formInput, uid: user.uid, date: format(new Date(), 'MMM do yyy') };
       createList(payload).then(({ name }) => {
         const patchPayload = { firebaseKey: name };
         updateList(patchPayload).then(() => {

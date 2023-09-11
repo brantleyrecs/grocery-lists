@@ -21,14 +21,14 @@ export default function NavBarAuth() {
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
             <Link passHref href="../../list/new">
-              <Nav.Link>New List</Nav.Link>
+              <Nav.Link href="../../list/new">New List</Nav.Link>
             </Link>
             <Link passHref href="../../items">
-              <Nav.Link>Items</Nav.Link>
+              <Nav.Link href="../../items">Items</Nav.Link>
             </Link>
           </Nav>
           <Link passHref href="../../profile">
-            <Nav.Link>
+            <Nav.Link href="../../profile">
               <img
                 src={user.photoURL}
                 alt="userURL"
