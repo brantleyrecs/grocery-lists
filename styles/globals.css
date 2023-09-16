@@ -18,8 +18,12 @@ a {
 }
 
 body {
-  background-color: #484749;
-  color: white;
+  background-image: url("../public/photos/pattern-dark-texture-black-wallpaper-preview.jpeg");
+    background-color: #cccccc;
+    background-position: center;
+    color: white;
+  /* background-color: #484749;
+  color: white; */
 }
 
 .lists {
@@ -62,8 +66,7 @@ ul > li {
 
 .link:hover {
   cursor: pointer;
-  color: rgb(116, 248, 107);
-  font-size: 30px;
+  color: rgb(148, 148, 148);
 }
 
 .card {
@@ -72,6 +75,7 @@ ul > li {
   color: white;
   border: none;
   border-radius: 50px;
+  box-shadow: 2px 2px 20px rgb(124, 124, 124)
 }
 .img {
   border-radius: 50px;
@@ -97,6 +101,6 @@ h6 {
   font-size: 20px;
 }
 
-/* .item {
-  display: flex;
-} */
+.nav {
+  background-color: rgba(0, 0, 0, 0.336);
+}

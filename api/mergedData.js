@@ -1,5 +1,11 @@
 import { getSingleItem, deleteItem } from './itemData';
-import { getSingleList, deleteSingleList, getListItems } from './listData';
+import {
+  getEveryList,
+  getSingleList,
+  deleteSingleList,
+  getListItems,
+  getListShared,
+} from './listData';
 
 const viewItemDetails = (itemFirebaseKey) => new Promise((resolve, reject) => {
   getSingleItem(itemFirebaseKey)
@@ -28,4 +34,16 @@ const viewListDetails = (listFirebaseKey) => new Promise((resolve, reject) => {
     }).catch((error) => reject(error));
 });
 
-export { viewItemDetails, deleteListItems, viewListDetails };
+const viewListUsers = (listFirebaseKey) => new Promise((resolve, reject) => {
+  Promise.all([getEveryList(listFirebaseKey), getListShared(listFirebaseKey)])
+    .then(([listObject, listUsers]) => {
+      resolve({ ...listObject, users: listUsers });
+    }).catch((error) => reject(error));
+});
+
+export {
+  viewItemDetails,
+  deleteListItems,
+  viewListDetails,
+  viewListUsers,
+};
