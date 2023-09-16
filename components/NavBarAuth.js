@@ -6,16 +6,15 @@ import {
   Navbar, Container, Nav,
 } from 'react-bootstrap';
 import { useAuth } from '../utils/context/authContext';
-// import { signOut } from '../utils/auth';
 
 export default function NavBarAuth() {
   const { user } = useAuth();
 
   return (
-    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+    <Navbar collapseOnSelect expand="lg" className="nav" variant="dark">
       <Container>
         <Link passHref href="/">
-          <Navbar.Brand>Grocery Lists</Navbar.Brand>
+          <Navbar.Brand>2nd Brain</Navbar.Brand>
         </Link>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">

@@ -44,27 +44,6 @@ function ItemCheckList({ itemObj, onUpdate }) {
           </tb>
         </tbody>
       </Table>
-      {/* <ul className="item_list">
-        <li className="item">
-          <Form.Check
-            className="text-white mb-3"
-            type="checkbox"
-            id="checked"
-            name="checked"
-            label=""
-          />
-          <h3>{itemObj.quantity}</h3>
-          <Link href={`../item/${itemObj.firebaseKey}`} passHref>
-            <h3 className="link">{itemObj.name}</h3>
-          </Link>
-          <h3>{itemObj.store}</h3>
-          <h3>{itemObj.aisle_number}</h3>
-          <Link href={`../item/edit/${itemObj.firebaseKey}`} passHref>
-            <Button className="card-button" variant="outline-warning"><BsFillPencilFill /></Button>
-          </Link>
-          <Button className="card-button" variant="outline-danger" onClick={deleteThisItem}><BsFillTrash3Fill /></Button>
-        </li>
-      </ul> */}
     </>
   );
 }

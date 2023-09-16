@@ -17,7 +17,7 @@ import { getLists } from '../../api/listData';
 
 const initialState = {
   name: '',
-  quantity: 0,
+  quantity: '',
   image_url: '',
   description: '',
   store: '',
@@ -28,7 +28,6 @@ const initialState = {
 function ItemForm({ obj }) {
   const [formInput, setFormInput] = useState(initialState);
   const [lists, setLists] = useState([]);
-  // const [editorResult, setEditResult] = useState(undefined);
   const router = useRouter();
   const { user } = useAuth();
 
@@ -67,7 +66,7 @@ function ItemForm({ obj }) {
       createItem(payload).then(({ name }) => {
         const patchPayload = { firebaseKey: name };
         updateItem(patchPayload).then(() => {
-          router.push('/items');
+          router.push(`/item/${obj.firebaseKey}`);
         });
       });
     }

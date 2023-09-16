@@ -1,5 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import PropTypes from 'prop-types';
 import Link from 'next/link';
 import { Button } from 'react-bootstrap';
 import Head from 'next/head';
@@ -10,6 +12,8 @@ import ListCard from '../components/cards/ListCard';
 function Home() {
   const [lists, setLists] = useState([]);
   const { user } = useAuth();
+  const router = useRouter();
+  const { firebaseKey } = router.query;
 
   const getAllLists = () => {
     getLists(user.uid).then(setLists);
@@ -17,7 +21,7 @@ function Home() {
 
   useEffect(() => {
     getAllLists();
-  }, []);
+  }, [user.uid, firebaseKey]);
 
   return (
     <>
@@ -48,5 +52,18 @@ function Home() {
     </>
   );
 }
+
+Home.propTypes = {
+  obj: PropTypes.shape({
+    name: PropTypes.string,
+    firebaseKey: PropTypes.string,
+  }),
+};
+
+Home.defaultProps = {
+  obj: {
+    name: 'Name',
+  },
+};
 
 export default Home;
