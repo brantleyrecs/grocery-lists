@@ -66,7 +66,7 @@ function ItemForm({ obj }) {
       createItem(payload).then(({ name }) => {
         const patchPayload = { firebaseKey: name };
         updateItem(patchPayload).then(() => {
-          router.push(`/item/${obj.firebaseKey}`);
+          router.push('/items');
         });
       });
     }
