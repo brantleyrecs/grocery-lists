@@ -66,7 +66,7 @@ function ItemForm({ obj }) {
       createItem(payload).then(({ name }) => {
         const patchPayload = { firebaseKey: name };
         updateItem(patchPayload).then(() => {
-          router.push(`/item/${obj.firebaseKey}`);
+          router.push('/items');
         });
       });
     }
@@ -159,7 +159,7 @@ function ItemForm({ obj }) {
       </Row>
       <br />
 
-      <FloatingLabel controlId="floatingSelect" label="Select A Grocery List">
+      <FloatingLabel controlId="floatingSelect" label="Select A List">
         <Form.Select
           aria-label="List"
           name="list_id"

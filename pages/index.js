@@ -5,28 +5,35 @@ import PropTypes from 'prop-types';
 import Link from 'next/link';
 import { Button } from 'react-bootstrap';
 import Head from 'next/head';
-import { getLists } from '../api/listData';
+import { getLists, getListShared } from '../api/listData';
 import { useAuth } from '../utils/context/authContext';
 import ListCard from '../components/cards/ListCard';
+import UserCard from '../components/cards/UserCard';
 
-function Home() {
+function Home({ obj }) {
   const [lists, setLists] = useState([]);
+  const [sharedList, setSharedList] = useState([]);
   const { user } = useAuth();
   const router = useRouter();
   const { firebaseKey } = router.query;
+
+  const getAllSharedList = () => {
+    getListShared(obj.firebaseKey).then(setSharedList);
+  };
 
   const getAllLists = () => {
     getLists(user.uid).then(setLists);
   };
 
   useEffect(() => {
+    getAllSharedList(firebaseKey);
     getAllLists();
   }, [user.uid, firebaseKey]);
 
   return (
     <>
       <Head>
-        <title>Grocery Lists</title>
+        <title>2nd Brain</title>
       </Head>
       <div
         className="text-center d-flex justify-content-center align-content-center"
@@ -46,6 +53,9 @@ function Home() {
         <div className="lists">
           {lists.map((list) => (
             <ListCard key={list.firebaseKey} listObj={list} onUpdate={getAllLists} />
+          ))}
+          {sharedList.map((shared) => (
+            <UserCard key={shared.firebaseKey} userObj={shared} onUpdate={getAllSharedList} />
           ))}
         </div>
       </div>

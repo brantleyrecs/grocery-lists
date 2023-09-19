@@ -6,7 +6,7 @@ export default function NewItem() {
   return (
     <>
       <Head>
-        <title>New Grocery Item</title>
+        <title>New Item</title>
       </Head>
       <ItemForm />
     </>
