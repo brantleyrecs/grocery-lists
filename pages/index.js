@@ -26,14 +26,14 @@ function Home({ obj }) {
   };
 
   useEffect(() => {
-    getAllSharedList();
+    getAllSharedList(firebaseKey);
     getAllLists();
   }, [user.uid, firebaseKey]);
 
   return (
     <>
       <Head>
-        <title>Grocery Lists</title>
+        <title>2nd Brain</title>
       </Head>
       <div
         className="text-center d-flex justify-content-center align-content-center"

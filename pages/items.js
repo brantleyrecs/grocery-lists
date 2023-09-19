@@ -32,7 +32,7 @@ export default function Items() {
   return (
     <>
       <Head>
-        <title>Grocery Items</title>
+        <title>Items</title>
       </Head>
       <SearchBar className="search" onKeyUp={(query) => filterResult(query)} />
       <div className="text-center my-4 cards">

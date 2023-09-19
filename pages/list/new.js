@@ -6,7 +6,7 @@ function newList() {
   return (
     <>
       <Head>
-        <title>New Grocery List</title>
+        <title>New List</title>
       </Head>
       <ListForm />
     </>
