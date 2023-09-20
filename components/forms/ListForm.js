@@ -5,6 +5,7 @@ import { format } from 'date-fns';
 import { Button, Form, FloatingLabel } from 'react-bootstrap';
 import { useAuth } from '../../utils/context/authContext';
 import { createList, updateList } from '../../api/listData';
+import { getUsers } from '../../api/usersData';
 
 const initialState = {
   name: '',
@@ -15,10 +16,14 @@ const initialState = {
 
 function ListForm({ obj }) {
   const [formInput, setFormInput] = useState(initialState);
+  const [dbUsers, setDbUsers] = useState([]);
   const router = useRouter();
   const { user } = useAuth();
 
   useEffect(() => {
+    getUsers().then(setDbUsers);
+    console.warn(dbUsers);
+
     if (obj.firebaseKey) setFormInput(obj);
   }, [obj, user]);
 
@@ -58,6 +63,30 @@ function ListForm({ obj }) {
           onChange={handleChange}
           required
         />
+      </FloatingLabel>
+
+      <FloatingLabel controlId="floatingSelect" label="Select A User to Share With">
+        <Form.Select
+          aria-label="Users"
+          name="user_id"
+          onChange={handleChange}
+          className="mb-3"
+          value={formInput.user_id}
+        >
+          <option value="">No User</option>
+          {
+            dbUsers.map((objUser) => (
+              <>
+                <option
+                  key={objUser.firebaseKey}
+                  value={objUser.uid}
+                >
+                  {objUser.name}
+                </option>
+              </>
+            ))
+          }
+        </Form.Select>
       </FloatingLabel>
       <br />
       <Button variant="outline-success" type="submit">{obj.firebaseKey ? 'Update' : 'Create'} List</Button>

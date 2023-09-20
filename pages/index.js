@@ -8,9 +8,9 @@ import Head from 'next/head';
 import { getLists, getListShared } from '../api/listData';
 import { useAuth } from '../utils/context/authContext';
 import ListCard from '../components/cards/ListCard';
-import UserCard from '../components/cards/UserCard';
+// import UserCard from '../components/cards/UserCard';
 
-function Home({ obj }) {
+function Home() {
   const [lists, setLists] = useState([]);
   const [sharedList, setSharedList] = useState([]);
   const { user } = useAuth();
@@ -18,7 +18,7 @@ function Home({ obj }) {
   const { firebaseKey } = router.query;
 
   const getAllSharedList = () => {
-    getListShared(obj.firebaseKey).then(setSharedList);
+    getListShared(user.uid).then(setSharedList);
   };
 
   const getAllLists = () => {
@@ -54,8 +54,9 @@ function Home({ obj }) {
           {lists.map((list) => (
             <ListCard key={list.firebaseKey} listObj={list} onUpdate={getAllLists} />
           ))}
+          <hr />
           {sharedList.map((shared) => (
-            <UserCard key={shared.firebaseKey} userObj={shared} onUpdate={getAllSharedList} />
+            <ListCard key={shared.firebaseKey} listObj={shared} onUpdate={getAllSharedList} />
           ))}
         </div>
       </div>

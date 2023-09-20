@@ -43,7 +43,7 @@ function UserForm({ obj }) {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <h1 className="text-white mt-5">{obj.firebaseKey ? 'Update' : 'Create'} User Info</h1>
+      <h1 className="text-white mt-5">{obj.firebaseKey ? 'Update' : 'Create'} User Info For Shared Funtionality</h1>
 
       <FloatingLabel controlId="FloatingInput1" label="First and Last Name" className="mb-3 text-black">
         <Form.Control

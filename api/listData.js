@@ -100,15 +100,21 @@ const getListItems = (firebaseKey) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-const getListShared = (firebaseKey) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/lists.json?orderBy="user_id"&equalTo="${firebaseKey}"`, {
+const getListShared = (uid) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/lists.json?orderBy="user_id"&equalTo="${uid}"`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
     },
   })
     .then((response) => response.json())
-    .then((data) => resolve(Object.values(data)))
+    .then((data) => {
+      if (data) {
+        resolve(Object.values(data));
+      } else {
+        resolve([]);
+      }
+    })
     .catch(reject);
 });
 
