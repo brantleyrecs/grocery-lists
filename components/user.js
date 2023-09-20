@@ -6,18 +6,18 @@ import Link from 'next/link';
 import { useAuth } from '../utils/context/authContext';
 import { signOut } from '../utils/auth';
 // import UserForm from './forms/UserForm';
-import { createUser, updateUser } from '../api/usersData';
+// import { createUser, updateUser } from '../api/usersData';
 
 export default function User() {
   const { user } = useAuth();
 
-  const userInfo = (obj) => {
-    if (obj.firebaseKey) {
-      updateUser();
-    } else {
-      createUser();
-    }
-  };
+  // const userInfo = (obj) => {
+  //   if (obj.firebaseKey) {
+  //     updateUser();
+  //   } else {
+  //     createUser();
+  //   }
+  // };
 
   return (
     <div className="text-light text-center profile">

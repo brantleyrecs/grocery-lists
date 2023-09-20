@@ -22,7 +22,6 @@ function ListForm({ obj }) {
 
   useEffect(() => {
     getUsers().then(setDbUsers);
-    console.warn(dbUsers);
 
     if (obj.firebaseKey) setFormInput(obj);
   }, [obj, user]);
