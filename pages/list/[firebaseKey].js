@@ -13,7 +13,7 @@ import {
   InputGroup,
   Table,
 } from 'react-bootstrap';
-import { BsFillPencilFill } from 'react-icons/bs';
+// import { BsFillPencilFill } from 'react-icons/bs';
 import Link from 'next/link';
 import Head from 'next/head';
 import { viewListDetails } from '../../api/mergedData';
@@ -63,7 +63,6 @@ export default function SingleList() {
               <th>Item</th>
               <th>Store</th>
               <th>Aisle</th>
-              <th>Edit</th>
             </tr>
           </thead>
           <tbody>
@@ -91,11 +90,6 @@ export default function SingleList() {
                   </td>
                   <td>{item.store}</td>
                   <td>{item.aisle_number}</td>
-                  <td>
-                    <Link href={`../item/edit/${item.firebaseKey}`} passHref>
-                      <Button className="card-button" variant="outline-warning"><BsFillPencilFill /></Button>
-                    </Link>
-                  </td>
                 </tr>
               ))}
           </tbody>

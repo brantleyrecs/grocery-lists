@@ -55,6 +55,8 @@ function Home() {
             <ListCard key={list.firebaseKey} listObj={list} onUpdate={getAllLists} />
           ))}
           <hr />
+          <h1>Shared With You</h1>
+          <br />
           {sharedList.map((shared) => (
             <ListCard key={shared.firebaseKey} listObj={shared} onUpdate={getAllSharedList} />
           ))}
