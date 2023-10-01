@@ -2,7 +2,7 @@
 import React from 'react';
 // import Image from 'next/image';
 import { Button } from 'react-bootstrap';
-import Link from 'next/link';
+// import Link from 'next/link';
 import { useAuth } from '../utils/context/authContext';
 import { signOut } from '../utils/auth';
 // import UserForm from './forms/UserForm';
@@ -36,9 +36,9 @@ export default function User() {
       <br />
       <h3>{user.metadata.lastSignInTime}</h3>
       <br />
-      <Link href="/users/new" passHref>
-        <Button type="button" size="lg" variant="outline-primary">User Info for Sharing</Button>
-      </Link>
+      {/* <Link href="/users/new" passHref>
+        <Button type="button" size="lg" variant="outline-primary">Add User Name</Button>
+      </Link> */}
       <br />
       <br />
       <Button type="button" size="lg" variant="outline-danger" className="btn" onClick={signOut}>

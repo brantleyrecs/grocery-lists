@@ -16,11 +16,13 @@ import {
 import { BsFillPencilFill } from 'react-icons/bs';
 import Link from 'next/link';
 import Head from 'next/head';
+import { useAuth } from '../../utils/context/authContext';
 import { viewListDetails } from '../../api/mergedData';
 
 export default function SingleList() {
   const [listDetails, setListDetails] = useState([]);
   const [search, setSearch] = useState('');
+  const { user } = useAuth();
   const router = useRouter();
   const { firebaseKey } = router.query;
 
@@ -31,6 +33,19 @@ export default function SingleList() {
   useEffect(() => {
     listItems(firebaseKey);
   }, [firebaseKey]);
+
+  console.warn(listDetails.uid);
+
+  const ogUser = () => {
+    if (user.uid === listDetails.uid) {
+      return (
+        <Link href={`../list/edit/${listDetails.firebaseKey}`} passHref>
+          <Button variant="outline-warning"><BsFillPencilFill /></Button>
+        </Link>
+      );
+    }
+    return ('');
+  };
 
   return (
     <>
@@ -43,6 +58,7 @@ export default function SingleList() {
             <h1 style={{ marginRight: '20px' }} className="font">
               {listDetails.name}
             </h1>
+            {ogUser()}
           </div>
           <Form>
             <InputGroup className="my-3">
@@ -63,7 +79,6 @@ export default function SingleList() {
               <th>Item</th>
               <th>Store</th>
               <th>Aisle</th>
-              <th>Edit</th>
             </tr>
           </thead>
           <tbody>
@@ -91,11 +106,6 @@ export default function SingleList() {
                   </td>
                   <td>{item.store}</td>
                   <td>{item.aisle_number}</td>
-                  <td>
-                    <Link href={`../item/edit/${item.firebaseKey}`} passHref>
-                      <Button className="card-button" variant="outline-warning"><BsFillPencilFill /></Button>
-                    </Link>
-                  </td>
                 </tr>
               ))}
           </tbody>
@@ -109,14 +119,15 @@ export default function SingleList() {
 }
 
 SingleList.propTypes = {
-  itemObj: PropTypes.shape({
+  listObj: PropTypes.shape({
     name: PropTypes.string,
     firebaseKey: PropTypes.string,
+    uid: PropTypes.string,
   }),
 };
 
 SingleList.defaultProps = {
-  itemObj: {
+  listObj: {
     name: 'Name',
   },
 };
