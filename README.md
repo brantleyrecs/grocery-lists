@@ -12,3 +12,4 @@
 #### 2. Then clone your repo to your local computer using "git clone (your github url)"
 #### 3. cd into your directory and then open it using code .
 #### 4. install npm then run it using "npm run dev" on your command line
+
