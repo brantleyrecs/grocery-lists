@@ -1,4 +1,3 @@
-
 # 2nd Brain
 
 ## The App
